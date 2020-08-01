@@ -1,7 +1,33 @@
-import React from "react";
+import React, { Component } from "react";
 
-const CommentBox = () => {
-  return <div>Comment Box</div>;
-};
+class CommentBox extends Component {
+  state = {
+    comment: "",
+  };
+
+  handleChange = (e) => {
+    this.setState({ comment: e.target.value });
+  };
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+
+    //TODO - call an action creator and save the comment
+
+    this.setState({ comment: "" }); //to empty-out the textarea
+  };
+
+  render() {
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <h4>Add a Comment</h4>
+        <textarea value={this.state.comment} onChange={this.handleChange} />
+        <div>
+          <button>Submit Comment</button>
+        </div>
+      </form>
+    );
+  }
+}
 
 export default CommentBox;
