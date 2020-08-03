@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+
+import { saveComment } from "actions/index";
 
 class CommentBox extends Component {
   state = {
@@ -12,7 +15,8 @@ class CommentBox extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
 
-    //TODO - call an action creator and save the comment
+    //call an action creator and save the comment
+    this.props.saveComment(this.state.comment);
 
     this.setState({ comment: "" }); //to empty-out the textarea
   };
@@ -30,4 +34,10 @@ class CommentBox extends Component {
   }
 }
 
-export default CommentBox;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    saveComment: (comment) => dispatch(saveComment(comment)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(CommentBox);
