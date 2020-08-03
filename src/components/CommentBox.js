@@ -21,6 +21,22 @@ class CommentBox extends Component {
     this.setState({ comment: "" }); //to empty-out the textarea
   };
 
+  //component got render and we check that user is logged in or not
+  componentDidMount() {
+    this.shouldNavigateAway();
+  }
+
+  //component got update and we check that user is logged in or not
+  componentDidUpdate() {
+    this.shouldNavigateAway();
+  }
+
+  shouldNavigateAway() {
+    if (!this.props.auth) {
+      this.props.history.push("/");
+    }
+  }
+
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
@@ -34,10 +50,14 @@ class CommentBox extends Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+function mapStateToProps(state) {
+  return { auth: state.auth };
+}
+
+function mapDispatchToProps(dispatch) {
   return {
     saveComment: (comment) => dispatch(saveComment(comment)),
   };
-};
+}
 
-export default connect(null, mapDispatchToProps)(CommentBox);
+export default connect(mapStateToProps, mapDispatchToProps)(CommentBox);
