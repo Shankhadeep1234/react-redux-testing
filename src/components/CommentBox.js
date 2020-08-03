@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import { saveComment } from "actions/index";
+import requireAuth from "components/requireAuth";
 
 class CommentBox extends Component {
   state = {
@@ -21,22 +22,6 @@ class CommentBox extends Component {
     this.setState({ comment: "" }); //to empty-out the textarea
   };
 
-  //component got render and we check that user is logged in or not
-  componentDidMount() {
-    this.shouldNavigateAway();
-  }
-
-  //component got update and we check that user is logged in or not
-  componentDidUpdate() {
-    this.shouldNavigateAway();
-  }
-
-  shouldNavigateAway() {
-    if (!this.props.auth) {
-      this.props.history.push("/");
-    }
-  }
-
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
@@ -50,14 +35,10 @@ class CommentBox extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return { auth: state.auth };
-}
-
 function mapDispatchToProps(dispatch) {
   return {
     saveComment: (comment) => dispatch(saveComment(comment)),
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CommentBox);
+export default connect(null, mapDispatchToProps)(requireAuth(CommentBox));
