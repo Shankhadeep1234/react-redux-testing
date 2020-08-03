@@ -5,8 +5,8 @@ import logger from "redux-logger";
 
 import reducers from "reducers";
 
-export default ({ children }) => {
-  const store = createStore(reducers, applyMiddleware(logger));
+export default ({ children, initialState = {} }) => {
+  const store = createStore(reducers, initialState, applyMiddleware(logger));
 
   return <Provider store={store}>{children}</Provider>;
 };
